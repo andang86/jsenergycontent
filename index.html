@@ -2,243 +2,730 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>JS에너지지회 단체협약 요구안</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS에너지지회 단협안 해설서</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- React + ReactDOM (CDN) -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-  <!-- Babel (JSX 변환용 CDN) -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
+  <!-- 기본 스타일 -->
   <style>
     body {
       margin: 0;
-      font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      font-family: 'Noto Sans KR', sans-serif;
       background: #ffffff;
       color: #333;
     }
-
     .header {
-      height: 60px;
-      display: flex;
-      align-items: center;
-      padding: 0 16px;
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: white;
-      border-bottom: 1px solid #ddd;
-      z-index: 20;
+      top:0; left:0; right:0;
+      height:70px;
+      background:#fff;
+      border-bottom:1px solid #ddd;
+      display:flex;
+      align-items:center;
+      padding:0 20px;
+      z-index:20;
+      box-shadow:0 1px 3px rgba(0,0,0,0.08);
     }
-
+    .logo-box {
+      width:45px; height:45px;
+      background:#f97316;
+      border-radius:8px;
+      display:flex; align-items:center; justify-content:center;
+      margin-right:12px;
+      color:white; font-weight:bold; font-size:20px;
+    }
+    /* Layout */
     .sidebar {
-      width: 260px;
-      position: fixed;
-      top: 60px;
-      bottom: 0;
-      left: 0;
-      background: #f8f9fb;
-      border-right: 1px solid #ddd;
-      overflow-y: auto;
+      position:fixed;
+      top:70px; left:0; bottom:0;
+      width:250px;
+      background:#f8fafc;
+      border-right:1px solid #ddd;
+      overflow-y:auto;
+      padding:20px;
+    }
+    .sidebar h2 {
+      font-size:12px;
+      color:#777;
+      font-weight:bold;
+      margin-bottom:10px;
+      letter-spacing:1px;
+    }
+    .nav-item {
+      width:100%;
+      padding:10px 12px;
+      margin-bottom:5px;
+      font-size:14px;
+      text-align:left;
+      border-radius:6px;
+      background:none;
+      border:none;
+      cursor:pointer;
+    }
+    .nav-item.active {
+      background:#e0f2fe;
+      color:#0369a1;
+      font-weight:bold;
+    }
+    .nav-item:hover {
+      background:#fff;
+      box-shadow:0 1px 3px rgba(0,0,0,0.1);
     }
 
-    .content {
-      margin-left: 260px;
-      padding: 80px 24px;
-      max-width: 900px;
+    .main {
+      padding-top:80px;
+      padding-left:270px;
+      max-width:900px;
+      margin:auto;
     }
 
     .chapter-title {
-      font-size: 24px;
-      font-weight: 700;
-      margin: 40px 0 20px;
-      border-bottom: 2px solid #e5e7eb;
-      padding-bottom: 8px;
+      font-size:24px;
+      font-weight:700;
+      margin-bottom:20px;
+      padding-bottom:10px;
+      border-bottom:2px solid #ddd;
+      display:flex;
+      align-items:center;
     }
 
+    /* Clause Card */
     .card {
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      background: white;
+      background:white;
+      border:1px solid #ddd;
+      border-radius:10px;
+      margin-bottom:25px;
+      box-shadow:0 1px 2px rgba(0,0,0,0.06);
+      transition:0.2s;
+    }
+    .card-header {
+      padding:20px;
+      border-bottom:1px solid #eee;
     }
 
-    .explanation {
-      background: #f0f6ff;
-      padding: 16px;
-      margin-top: 12px;
-      border-radius: 8px;
-      display: none;
+    .card-header h3 {
+      margin:0;
+      font-size:18px;
+      font-weight:700;
+      margin-bottom:10px;
+    }
+    .content-box {
+      background:#f8fafc;
+      border:1px solid #eee;
+      padding:15px;
+      white-space:pre-line;
+      border-radius:6px;
+      font-size:15px;
     }
 
-    .show { display: block; }
-
-    .sidebar-btn {
-      display: block;
-      width: 100%;
-      padding: 12px 16px;
-      border: none;
-      background: none;
-      text-align: left;
-      font-size: 15px;
-      cursor: pointer;
-      color: #555;
+    .accordion-btn {
+      width:100%;
+      padding:12px 18px;
+      background:white;
+      border:none;
+      text-align:left;
+      cursor:pointer;
+      font-size:14px;
+      border-top:1px solid #eee;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .accordion-body {
+      background:#f0f9ff;
+      padding:20px;
+      border-top:1px solid #dbeafe;
+    }
+    .summary-title {
+      font-size:12px;
+      font-weight:bold;
+      color:#0369a1;
+      margin-bottom:4px;
+    }
+    .summary-text {
+      font-size:14px;
+      font-weight:bold;
+      margin-left:10px;
+    }
+    .explain-title {
+      font-size:12px;
+      font-weight:bold;
+      color:#555;
+      margin-bottom:4px;
+      margin-top:15px;
+    }
+    .explain-text {
+      font-size:14px;
+      margin-left:10px;
+      white-space:pre-line;
     }
 
-    .sidebar-btn:hover {
-      background: white;
-      font-weight: bold;
-      color: #1d4ed8;
+    footer {
+      margin-top:50px;
+      padding:30px;
+      text-align:center;
+      color:#666;
+      border-top:1px solid #ddd;
     }
-
   </style>
 </head>
 
 <body>
-  <!-- React Root -->
-  <div id="root"></div>
 
-  <!-- React App -->
-  <script type="text/babel">
+<div class="header">
+  <div class="logo-box">JS</div>
+  <div>
+    <div style="font-weight:bold; font-size:18px">전국화학섬유식품산업노동조합</div>
+    <div style="font-size:13px; color:#666;">JS에너지지회 단체협약 요구안 (해설 포함)</div>
+  </div>
+</div>
 
-    /*****************************************************
-     *  1) 아이콘 매핑
-     *****************************************************/
-    const Icons = {
-      Scale: lucide.Scale,
-      Users: lucide.Users,
-      Briefcase: lucide.Briefcase,
-      Coins: lucide.Coins,
-      Clock: lucide.Clock,
-      ShieldCheck: lucide.ShieldCheck,
-      Heart: lucide.Heart,
-      FileText: lucide.FileText,
-      AlertTriangle: lucide.AlertTriangle,
-      MessageCircle: lucide.MessageCircle,
-      Bookmark: lucide.Bookmark
-    };
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar"></div>
 
-    /*****************************************************
-     *  2) 단체협약 데이터
-     *  (부장님이 제공한 agreementData 전체를 여기에 삽입)
-     *****************************************************/
-    const agreementData = [
-      /* ------------- 부장님 단협안 JSON 통째로 삽입 ------------- */
-      /* 기존 React 코드에 있던 chapter1~chapter13 전체 내용 그대로 */
-    ];
+<!-- Main -->
+<div class="main" id="main"></div>
 
-    /*****************************************************
-     *  3) ClauseCard 컴포넌트
-     *****************************************************/
-    function ClauseCard({ clause }) {
-      const [open, setOpen] = React.useState(false);
+<footer>
+  <div style="font-weight:bold; margin-bottom:5px">
+    전국화학섬유식품산업노동조합 JS에너지지회
+  </div>
+  <div>© 2025 KCTU JS Energy Branch</div>
+</footer>
 
-      return (
-        <div className="card">
-          <h3 style={{ fontSize: "18px", fontWeight: "700" }}>{clause.title}</h3>
+<script>
+/* -------------------------------------------------------------------
+   단협안 + 해설 데이터 (React 코드 그대로 포함)
+------------------------------------------------------------------- */
 
-          <pre style={{
-            whiteSpace: "pre-wrap",
-            fontSize: "15px",
-            lineHeight: "1.6",
-            marginTop: "12px",
-            background: "#fafafa",
-            padding: "16px",
-            borderRadius: "8px",
-            border: "1px solid #eee"
-          }}>
-            {clause.content}
-          </pre>
+const agreementData = /* 부장님이 주신 전체 JSON 데이터 */ [
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>JS에너지지회 단체협약 해설서</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-          <button
-            onClick={() => setOpen(!open)}
-            style={{
-              marginTop: "10px",
-              padding: "8px 12px",
-              background: "#e8f0ff",
-              border: "1px solid #cbd9ff",
-              borderRadius: "6px",
-              cursor: "pointer"
-            }}
-          >
-            {open ? "해설 닫기" : "해설 보기"}
-          </button>
+  <style>
+    body { margin:0; font-family:'Noto Sans KR', sans-serif; background:white; }
+    .header { position:fixed; top:0; left:0; right:0; height:70px; background:#fff; border-bottom:1px solid #ddd;
+      display:flex; align-items:center; padding:0 20px; z-index:20; box-shadow:0 1px 3px rgba(0,0,0,0.08);}
+    .logo-box { width:45px; height:45px; background:#f97316; border-radius:8px; display:flex;
+      align-items:center; justify-content:center; color:white; font-weight:bold; font-size:20px; margin-right:12px; }
 
-          <div className={`explanation ${open ? "show" : ""}`}>
-            <strong>핵심 요지:</strong> {clause.summary}
-            <br/><br/>
-            <strong>해설:</strong><br/>
-            {clause.explanation}
-          </div>
+    .sidebar { position:fixed; top:70px; left:0; bottom:0; width:260px;
+      background:#f8fafc; border-right:1px solid #ddd; overflow-y:auto; padding:20px; }
+    .nav-item { width:100%; padding:10px 12px; margin-bottom:6px; font-size:14px; text-align:left;
+      background:none; border:none; cursor:pointer; border-radius:6px; }
+    .nav-item.active { background:#e0f2fe; color:#0369a1; font-weight:bold; }
+    .nav-item:hover { background:white; box-shadow:0 1px 3px rgba(0,0,0,0.1); }
+
+    .main { padding-top:80px; padding-left:280px; max-width:900px; margin:auto; }
+
+    .chapter-title { font-size:24px; font-weight:700; border-bottom:2px solid #ddd;
+      padding-bottom:10px; margin-bottom:20px; }
+
+    .card { background:white; border:1px solid #ddd; border-radius:10px; margin-bottom:25px;
+      box-shadow:0 1px 2px rgba(0,0,0,0.06); }
+    .card-header { padding:20px; border-bottom:1px solid #eee; }
+    .card-header h3 { margin:0 0 10px 0; font-size:18px; }
+
+    .content-box { background:#f8fafc; border:1px solid #eee; padding:15px; border-radius:6px; font-size:15px; white-space:pre-line; }
+
+    .accordion-btn { width:100%; padding:12px 18px; background:white; border:none; font-size:14px; cursor:pointer;
+      display:flex; justify-content:space-between; border-top:1px solid #eee; }
+    .accordion-body { background:#f0f9ff; padding:20px; border-top:1px solid #dbeafe; display:none; }
+
+    .summary-title { font-size:12px; color:#0369a1; font-weight:bold; margin-bottom:4px; }
+    .summary-text { font-size:14px; font-weight:bold; margin-left:10px; }
+    .explain-title { font-size:12px; color:#555; font-weight:bold; margin-top:15px; margin-bottom:4px; }
+    .explain-text { font-size:14px; margin-left:10px; white-space:pre-line; }
+
+    footer { margin-top:50px; padding:30px; text-align:center; color:#666; border-top:1px solid #ddd; }
+  </style>
+</head>
+
+<body>
+
+<div class="header">
+  <div class="logo-box">JS</div>
+  <div>
+    <div style="font-size:18px; font-weight:bold">전국화학섬유식품산업노동조합</div>
+    <div style="font-size:13px; color:#666">JS에너지지회 단체협약 요구안 및 해설</div>
+  </div>
+</div>
+
+<div class="sidebar" id="sidebar"></div>
+
+<div class="main" id="main"></div>
+
+<footer>
+  <div style="font-weight:bold">전국화학섬유식품산업노동조합 JS에너지지회</div>
+  <div>© 2025 KCTU JS Energy Branch</div>
+</footer>
+
+<script>
+
+/* =======================
+   🔥 단협안 JSON 삽입 위치
+   ======================= */
+
+const agreementData = /* AGREEMENT_DATA_HERE */ [];
+[
+  {
+    "chapterId": "chapter1",
+    "chapterTitle": "제1장 총칙",
+    "clauses": [
+      {
+        "id": "art1",
+        "title": "협약의 우선",
+        "content": "이 협약에 정한 기준은 근로기준법과 기타 관계 법령, 회사의 제 규칙과 제 규정, 기타 사용자가 조합 및 조합원과 맺은 모든 협정과 개별 계약에 우선하며, 협약 기준에 미달하거나 상반되는 사항은 모두 무효로 하고 이 협약 기준에 따른다.",
+        "summary": "규정 간 충돌 시 단협 최우선 적용 원칙 확립",
+        "explanation": "회사의 취업규칙, 인사규정 등 다양한 내규가 단체협약과 충돌할 경우 현장의 혼란이 발생합니다. 본 조항은 단협을 최우선 기준으로 삼아 불필요한 다툼을 줄이고, 개별 근로계약으로 전체 기준을 저하시키는 것을 방지하기 위함입니다."
+      },
+      {
+        "id": "art2",
+        "title": "협약의 적용범위",
+        "content": "이 협약은 회사에 종사하는 모든 노동자에게 동등하게 적용한다.",
+        "summary": "모든 노동자에게 차별 없는 단협 적용",
+        "explanation": "직종, 직군, 고용형태에 따라 단협 적용을 배제하거나 선별적으로 적용하는 것을 방지하여, 노동자 간 형평성을 보장하고 전체 직원의 근로조건을 통일적으로 보호하기 위함입니다."
+      },
+      {
+        "id": "art3",
+        "title": "노동조건의 저하 금지",
+        "content": "회사는 이 협약에 규정되어 있지 않거나 누락되었다는 등의 이유로, 노조가 이미 확보하였거나 관행으로 보장되어 온 노조활동의 권리와 기존의 노동조건을 저하시킬 수 없다.",
+        "summary": "기존 관행 및 기득권 보호",
+        "explanation": "단협에 명시되지 않았다는 이유만으로 기존에 누리던 상여금, 휴가 관행 등을 회사가 일방적으로 축소하는 것을 막기 위한 안전장치입니다. 협약 체결이 오히려 노동조건 후퇴로 이어지는 것을 방지합니다."
+      },
+      {
+        "id": "art4",
+        "title": "규정의 개폐",
+        "content": "회사는 취업규칙을 비롯하여 근로조건과 관련된 조합원 및 직원에 관련된 제 규정, 규칙을 제정 또는 개정 · 폐지하고자 할 때에는 반드시 사전에 조합의 의견을 청취하여야 하며, 불이익한 변경에 해당할 경우에는 조합의 동의를 구해야 한다.",
+        "summary": "취업규칙 등 규정 변경 시 노조 개입 권한 보장",
+        "explanation": "회사가 일방적으로 규정을 변경하여 근로조건을 불리하게 만드는 것을 방지합니다. 사전 의견 청취와 불이익 변경 시 동의 절차를 명문화하여 절차적 정당성을 확보합니다."
+      },
+      {
+        "id": "art5",
+        "title": "기업의 사회적 책임 및 안전·환경 의무",
+        "content": "① 노사 쌍방은 기업이 사회적 책무를 다하고 사회 발전에 기여함으로써 전 직원이 보람과 긍지를 느끼며 일할 수 있는 일터를 만들고, 국민으로부터 신뢰받는 기업을 구현하기 위해 적극 노력한다.\n② 회사는 경영의 자율성·투명성·공정성을 제고하기 위하여 최선의 노력을 다하고, 조합과의 성실한 협력 관계 구축을 위해 필요한 정보를 성실히 공개한다.\n③ 회사는 안전사고 및 환경오염을 예방하기 위해 모든 조치를 강구하고, 산업안전보건법, 환경관련 법령 등 관계 법령을 준수하며, 조합과 협력하여 안전한 작업환경을 조성한다.",
+        "summary": "경영 투명성 제고 및 ESG 경영 실천",
+        "explanation": "화학소재 제조업 특성상 안전·환경 리스크가 큽니다. 회사가 정보를 독점하지 않고 노조와 공유함으로써 사고를 예방하고, 지역사회와 직원에게 신뢰받는 기업을 만들기 위한 조항입니다."
+      }
+    ]
+  },
+
+  {
+    "chapterId": "chapter2",
+    "chapterTitle": "제2장 조합활동 보장",
+    "clauses": [
+      {
+        "id": "art_union_guarantee",
+        "title": "조합활동의 보장",
+        "content": "회사는 조합원의 정당하고 자유로운 조합 활동을 보장하고, 조합운영에 개입해서는 아니 되며, 조합 활동을 이유로 어떠한 불이익 처우도 하지 아니한다.",
+        "summary": "노조 자주성 침해 및 불이익 금지",
+        "explanation": "조합 활동은 법적으로 보장된 권리입니다. 관리자의 자의적인 활동 방해나 인사상 불이익을 사전에 차단하고, 안정적인 노사 관계의 기틀을 마련합니다."
+      },
+      {
+        "id": "art_activity_hours",
+        "title": "근무시간 중의 조합활동",
+        "content": "① 조합 활동은 근무시간 외에 행함을 원칙으로 하며, 다음 각 호에 해당하는 경우에는 참석 인원에 한하여 근무한 것으로 인정하고 유급으로 처리한다.\n1. 정기총회: 연 1일\n2. 대의원대회: 연 2일(임원 및 대의원)\n3. 회계감사: 연 2일(회계감사 2명 및 사무장 1명)\n4. 선거 시: 연 1일(선거관리위원 2명)\n5. 운영위원회 회의: 월 4시간(임원 및 집행부)\n6. 조합원 교육시간: 연 1인당 8시간\n7. 신입 조합원 교육시간: 4시간\n8. 기타 노사가 합의한 사항",
+        "summary": "필수 조합활동의 근무시간 인정(유급)",
+        "explanation": "총회, 대의원대회, 교육 등 필수적인 조합 활동 시간을 보장하여 노조 운영의 내실을 다지고, 조합원의 참여권을 실질적으로 보장하기 위함입니다."
+      },
+      {
+        "id": "art_promotion",
+        "title": "홍보활동 보장",
+        "content": "① 회사는 조합의 자유로운 사내 홍보활동을 보장한다.\n② 조합은 게시판을 설치할 수 있으며 회사는 홍보물 게시·배포·현수막 부착 등을 제한하지 않는다.\n③ 조합은 회사 내부 통신망을 활용할 수 있다.",
+        "summary": "자유로운 소통과 알 권리 보장",
+        "explanation": "노조의 소식을 알리고 조합원과 소통하는 것은 민주적 운영의 기초입니다. 회사가 홍보를 통제하여 조합원 접근권을 막는 것을 방지합니다."
+      },
+      {
+        "id": "art_biz_trip",
+        "title": "출장처리",
+        "content": "조합원이 근무시간 중 조합 활동을 위해 외부 회의·교육 참석이 필요한 경우 이를 유급 출장으로 처리한다.",
+        "summary": "상급단체 회의 등 외부 활동 보장",
+        "explanation": "상급단체 회의나 법률 교육 참석이 필수임에도 회사가 이를 근태 상 불이익으로 처리하는 것을 막기 위함입니다."
+      },
+      {
+        "id": "art_timeoff",
+        "title": "근로시간면제(타임오프)",
+        "content": "① 회사는 조합의 원활한 운영을 위해 연 4,000시간의 근로시간면제를 보장하며, 면제자 수는 3명으로 한다.\n② 면제자의 활동은 전적으로 인정하며 어떠한 불이익도 주지 않는다.\n③ 면제 기간 종료 후 원직복귀를 보장한다.\n④ 조합 활동 중 발생한 재해는 업무상 재해로 인정한다.",
+        "summary": "근로시간면제 4,000시간 및 완전한 신분 보호",
+        "explanation": "복수노조 체계에서 대표교섭노조가 전체 조합원을 위한 교섭·고충처리·산보위 활동을 수행하기 위해서는 충분한 시간과 신분 보장이 필수적입니다."
+      },
+      {
+        "id": "art_checkoff",
+        "title": "조합비 일괄공제",
+        "content": "회사는 조합비를 매월 급여에서 일괄 공제하여 조합에 전달한다.",
+        "summary": "조합비 공제 자동화",
+        "explanation": "조합비 납부 편의성과 회계 투명성을 위해 반드시 필요합니다."
+      },
+      {
+        "id": "art_facility",
+        "title": "조합 사무실 및 시설 제공",
+        "content": "회사는 조합 사무실과 비품을 제공하며, 전자적 감시를 포함한 조합활동 방해를 금지한다.",
+        "summary": "독립된 조합 공간 확보",
+        "explanation": "노조가 자주성을 갖고 활동하기 위해서는 독립 사무공간이 필수입니다."
+      },
+      {
+        "id": "art_info",
+        "title": "자료 제공 및 열람",
+        "content": "회사는 취업규칙과 제 규정을 상시 공개하고, 조합이 요청하는 자료를 성실히 제공한다.",
+        "summary": "정보 비대칭 해소",
+        "explanation": "단체교섭의 실질화를 위해서는 회사가 보유한 정보를 노조가 확인할 수 있어야 합니다."
+      },
+      {
+        "id": "art_notice",
+        "title": "노사 간 통지",
+        "content": "노사 모두 인사 변화, 조직 개편 등 주요 사안을 상호 통지한다.",
+        "summary": "신뢰 기반 운영",
+        "explanation": "노사 간 정보 공유는 오해와 갈등을 줄이고 협력적 관계 유지에 필수입니다."
+      }
+    ]
+  },
+
+  {
+    "chapterId": "chapter3",
+    "chapterTitle": "제3장 인사 및 징계",
+    "clauses": [
+      {
+        "id": "art_hr_principle",
+        "title": "인사 원칙",
+        "content": "① 조합 간부 인사는 사전 합의.\n② 인사는 공정·객관성을 원칙.\n③ 조합원 차별 금지.\n④ 부당 징벌 금지.",
+        "summary": "인사권 남용 방지",
+        "explanation": "인사권이 노조 간부 탄압에 악용되는 것을 막고 전체 직원에게 공정한 인사 시스템을 보장합니다."
+      },
+      {
+        "id": "art_hr_eval",
+        "title": "인사평가 공정성",
+        "content": "① 평가제도 개편 시 노사합의.\n② 평가결과를 이유로 한 해고 금지.\n③ 평가정보 공개 및 이의제기 가능.",
+        "summary": "평가 투명성 확보",
+        "explanation": "불투명 평가를 통해 인사상 불이익을 주는 것을 막습니다."
+      },
+      {
+        "id": "art_recruit",
+        "title": "채용",
+        "content": "① 공개채용 원칙.\n② 비정규직·경력직 채용 시 사전 노사합의.",
+        "summary": "채용 비리 및 비정규직 남용 방지",
+        "explanation": "채용을 공정하게 하고, 상시 업무의 무분별한 외주화를 막기 위한 조항입니다."
+      },
+      {
+        "id": "art_probation",
+        "title": "수습 및 임시직",
+        "content": "① 수습 3개월 초과 금지.\n② 임시직 반복 갱신 금지.\n③ 상시 업무는 정규직화.",
+        "summary": "불안정 고용 억제",
+        "explanation": "수습·임시직 제도를 통한 장기 저임금 구조와 고용 불안을 방지합니다."
+      },
+      {
+        "id": "art_retirement",
+        "title": "정년",
+        "content": "정년 만 60세, 본인 의사로 63세까지 연장 가능.",
+        "summary": "정년 보장",
+        "explanation": "노동자의 노후 안정성과 숙련 인력의 유지에 기여합니다."
+      },
+      {
+        "id": "art_reward",
+        "title": "장기근속 포상",
+        "content": "5년: 금5돈+3일 / 10년: 금10돈+5일 / 15년: 금15돈+10일 / 20년: 금20돈+15일.",
+        "summary": "장기근속자 예우",
+        "explanation": "회사 성장을 위해 오랜 기간 기여한 조합원의 노력에 대한 정당한 보상입니다."
+      },
+      {
+        "id": "art_promotion_step",
+        "title": "승급",
+        "content": "입사일 기준 매년 1호봉 자동 승급.",
+        "summary": "연공 임금 보장",
+        "explanation": "회사 재량이 아닌 자동화된 임금인상 구조를 통해 예측 가능성을 높입니다."
+      },
+      {
+        "id": "art_leave_absence",
+        "title": "휴직·복직",
+        "content": "휴직 사유 명시, 근속 인정, 원직복귀 보장.",
+        "summary": "휴직자 보호",
+        "explanation": "요양·군복무 등 불가피한 사유로 인한 휴직이 불이익으로 이어지지 않도록 보호합니다."
+      },
+      {
+        "id": "art_unfair_labor",
+        "title": "부당노동행위 금지",
+        "content": "판정 즉시 시정, 초심 기준 준수.",
+        "summary": "신속한 구제",
+        "explanation": "법적 절차를 악용해 시정을 지연하는 행태를 막기 위한 조항입니다."
+      },
+      {
+        "id": "art_disciplinary",
+        "title": "징계",
+        "content": "노사 동수 징계위, 소명권 보장, 부당징계 시 무효 및 임금 150% 지급.",
+        "summary": "징계 남용 방지",
+        "explanation": "해고·징계가 사용자의 자의적 판단으로 이루어지는 것을 방지합니다."
+      }
+    ]
+  },
+
+  {
+    "chapterId": "chapter4",
+    "chapterTitle": "제4장 고용안정",
+    "clauses": [
+      {
+        "id": "art_emp_committee",
+        "title": "고용안정위원회",
+        "content": "노사 동수 구성, 고용 관련 주요 사안 심의·의결.",
+        "summary": "고용조정 견제",
+        "explanation": "정원 감축·구조조정 등 핵심 고용 문제를 노사가 함께 결정하도록 하여 고용 불안을 해소합니다."
+      },
+      {
+        "id": "art_emp_fund",
+        "title": "고용안정기금",
+        "content": "영업이익 5% 적립.",
+        "summary": "해고 회피 재원 확보",
+        "explanation": "경영 위기 시 해고 대신 다른 방안을 선택할 여지를 확보합니다."
+      },
+      {
+        "id": "art_manpower",
+        "title": "적정인력 확보",
+        "content": "결원 1개월 내 충원, 노사합의로 정원 유지.",
+        "summary": "인력 부족 방지",
+        "explanation": "작업량 대비 인력 부족은 과로·안전사고로 이어지므로 적정인력은 필수 요소입니다."
+      },
+      {
+        "id": "art_temp_restrict",
+        "title": "비정규직 제한",
+        "content": "상시업무 비정규직 사용 제한, 정규직화 원칙.",
+        "summary": "비정규직 남용 방지",
+        "explanation": "노동시장 이중구조를 완화하고 안정적 고용 구조를 확보합니다."
+      },
+      {
+        "id": "art_layoff",
+        "title": "정리해고 제한",
+        "content": "긴박성 엄격해석, 해고회피 노력, 50일 전 통보.",
+        "summary": "정리해고 요건 강화",
+        "explanation": "정리해고 남용을 막고 생계권을 보호하기 위한 최소한의 안전 장치입니다."
+      },
+      {
+        "id": "art_subcontract",
+        "title": "외주화 제한",
+        "content": "사전 합의, 외주 물량 조정 우선.",
+        "summary": "정규직 보호",
+        "explanation": "외주화를 이유로 정규직의 일자리를 대체하는 것을 막기 위함입니다."
+      },
+      {
+        "id": "art_training",
+        "title": "교육훈련",
+        "content": "전환배치 시 유급 교육.",
+        "summary": "업무 적응 지원",
+        "explanation": "안전 사고를 예방하기 위해 새로운 업무 배치 전 교육은 필수입니다."
+      },
+      {
+        "id": "art_foreign_worker",
+        "title": "외국인노동자 처우",
+        "content": "외국인 채용 시 노조 협의, 차별금지.",
+        "summary": "공정한 고용 환경",
+        "explanation": "외국인 노동자도 동일한 노동조건을 보장받아야 하며, 내국인 대체도 방지해야 합니다."
+      }
+    ]
+  },
+
+
+
+
+
+
+/* -------------------------------
+   사이드바 렌더링
+-------------------------------- */
+function renderSidebar() {
+  const side = document.getElementById("sidebar");
+  agreementData.forEach(ch => {
+    const btn = document.createElement("button");
+    btn.className = "nav-item";
+    btn.id = "nav-" + ch.chapterId;
+    btn.textContent = ch.chapterTitle;
+    btn.onclick = () => scrollToChapter(ch.chapterId);
+    side.appendChild(btn);
+  });
+}
+
+/* -------------------------------
+   본문 렌더링
+-------------------------------- */
+function renderMain() {
+  const main = document.getElementById("main");
+
+  agreementData.forEach(ch => {
+    const section = document.createElement("section");
+    section.id = ch.chapterId;
+
+    section.innerHTML = `<div class="chapter-title">${ch.chapterTitle}</div>`;
+
+    ch.clauses.forEach(cl => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <div class="card-header">
+          <h3>${cl.title}</h3>
+          <div class="content-box">${cl.content}</div>
         </div>
-      );
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          💡 제안 배경 및 해설 보기 <span>▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="summary-title">핵심 요지</div>
+          <div class="summary-text">${cl.summary}</div>
+          <div class="explain-title">상세 해설</div>
+          <div class="explain-text">${cl.explanation}</div>
+        </div>
+      `;
+      section.appendChild(card);
+    });
+
+    main.appendChild(section);
+  });
+}
+
+/* 아코디언 */
+function toggleAccordion(btn) {
+  const body = btn.nextElementSibling;
+  const span = btn.querySelector("span");
+  const visible = body.style.display === "block";
+  body.style.display = visible ? "none" : "block";
+  span.textContent = visible ? "▼" : "▲";
+}
+
+/* 스크롤 이동 */
+function scrollToChapter(id) {
+  const el = document.getElementById(id);
+  const top = el.offsetTop - 70;
+  window.scrollTo({ top, behavior: "smooth" });
+}
+
+/* 스크롤 시 활성 챕터 강조 */
+window.addEventListener("scroll", () => {
+  agreementData.forEach(ch => {
+    const sec = document.getElementById(ch.chapterId);
+    const nav = document.getElementById("nav-" + ch.chapterId);
+    const rect = sec.getBoundingClientRect();
+    if (rect.top <= 150 && rect.bottom >= 150) {
+      nav.classList.add("active");
+    } else {
+      nav.classList.remove("active");
     }
+  });
+});
 
-    /*****************************************************
-     *  4) 메인 App 컴포넌트
-     *****************************************************/
-    function App() {
-      return (
-        <>
-          {/* HEADER */}
-          <div className="header">
-            <h2 style={{ margin: 0, fontSize: "19px", fontWeight: "700" }}>
-              JS에너지지회 단체협약 요구안
-            </h2>
-          </div>
+/* 초기 렌더 */
+renderSidebar();
+renderMain();
 
-          {/* SIDEBAR */}
-          <div className="sidebar">
-            {agreementData.map((chapter) => (
-              <button
-                key={chapter.chapterId}
-                className="sidebar-btn"
-                onClick={() => {
-                  const el = document.getElementById(chapter.chapterId);
-                  if (el) window.scrollTo({ top: el.offsetTop - 60, behavior: "smooth" });
-                }}
-              >
-                {chapter.chapterTitle}
-              </button>
-            ))}
-          </div>
+</script>
 
-          {/* CONTENT */}
-          <div className="content">
-            {agreementData.map((chapter) => {
-              const Icon = Icons[chapter.icon] || lucide.FileText;
-              return (
-                <section key={chapter.chapterId} id={chapter.chapterId}>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Icon size={26} style={{ marginRight: "8px" }} />
-                    <h2 className="chapter-title">{chapter.chapterTitle}</h2>
-                  </div>
+</body>
+</html>
 
-                  {chapter.clauses.map((clause) => (
-                    <ClauseCard key={clause.id} clause={clause} />
-                  ))}
-                </section>
-              );
-            })}
-          </div>
-        </>
-      );
+];
+
+/* -------------------------------------------------------------------
+   사이드바 렌더링
+------------------------------------------------------------------- */
+function renderSidebar() {
+  const side = document.getElementById("sidebar");
+  agreementData.forEach(ch => {
+    const btn = document.createElement("button");
+    btn.className = "nav-item";
+    btn.textContent = ch.chapterTitle;
+    btn.onclick = () => scrollToChapter(ch.chapterId);
+    btn.id = "nav-" + ch.chapterId;
+    side.appendChild(btn);
+  });
+}
+
+/* -------------------------------------------------------------------
+   본문 렌더링
+------------------------------------------------------------------- */
+function renderMain() {
+  const main = document.getElementById("main");
+
+  agreementData.forEach(ch => {
+    const section = document.createElement("section");
+    section.id = ch.chapterId;
+    section.innerHTML = `
+      <div class="chapter-title">${ch.chapterTitle}</div>
+    `;
+
+    ch.clauses.forEach(cl => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <div class="card-header">
+          <h3>${cl.title}</h3>
+          <div class="content-box">${cl.content}</div>
+        </div>
+
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          💡 제안 배경 및 해설 보기
+          <span>▼</span>
+        </button>
+
+        <div class="accordion-body" style="display:none">
+          <div class="summary-title">핵심 요지</div>
+          <div class="summary-text">${cl.summary}</div>
+          <div class="explain-title">상세 해설</div>
+          <div class="explain-text">${cl.explanation}</div>
+        </div>
+      `;
+      section.appendChild(card);
+    });
+
+    main.appendChild(section);
+  });
+}
+
+/* -------------------------------------------------------------------
+   아코디언 토글
+------------------------------------------------------------------- */
+function toggleAccordion(btn) {
+  const body = btn.nextElementSibling;
+  const arrow = btn.querySelector("span");
+
+  if (body.style.display === "none") {
+    body.style.display = "block";
+    arrow.textContent = "▲";
+  } else {
+    body.style.display = "none";
+    arrow.textContent = "▼";
+  }
+}
+
+/* -------------------------------------------------------------------
+   챕터 스크롤 이동
+------------------------------------------------------------------- */
+function scrollToChapter(id) {
+  const el = document.getElementById(id);
+  const top = el.offsetTop - 70;
+  window.scrollTo({ top, behavior: "smooth" });
+}
+
+/* -------------------------------------------------------------------
+   스크롤 시 활성 챕터 표시
+------------------------------------------------------------------- */
+window.addEventListener("scroll", () => {
+  agreementData.forEach(ch => {
+    const sec = document.getElementById(ch.chapterId);
+    const nav = document.getElementById("nav-" + ch.chapterId);
+    const rect = sec.getBoundingClientRect();
+    if (rect.top <= 150 && rect.bottom >= 150) {
+      nav.classList.add("active");
+    } else {
+      nav.classList.remove("active");
     }
+  });
+});
 
-    /*****************************************************
-     *  5) ReactDOM Mount
-     *****************************************************/
-    const root = ReactDOM.createRoot(document.getElementById("root"));
-    root.render(<App />);
+/* -------------------------------------------------------------------
+   초기 렌더링
+------------------------------------------------------------------- */
+renderSidebar();
+renderMain();
+</script>
 
-  </script>
 </body>
 </html>
